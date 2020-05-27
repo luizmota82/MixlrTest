@@ -32,7 +32,7 @@ internal class StationViewModel(private val stationRepository: StationRepository
 }
 
 internal sealed class StationViewState {
-    data class Initial(val stationId: Int = 22): StationViewState()
+    data class Initial(val stationId: Int = 23): StationViewState()
     object Empty : StationViewState()
     object Loading : StationViewState()
     object Error : StationViewState()

@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -58,7 +59,7 @@ private fun Schedule.toShows(): List<Show> = this.data.map {
         isLive = isLive(it, Date()),
         isOnAir = it.attributes.status == ShowStatus.OnAir
     )
-}
+}.sortedBy { it.startTime }
 
 private fun isLive(dataX: DataX, now: Date): Boolean =
     dataX.attributes.starts_at.before(now) && dataX.attributes.ends_at.after(now)
@@ -89,12 +90,16 @@ data class Show(
     val isOnAir: Boolean
 )
 
-data class ShowListResult(val name: String)
-
 interface StationService {
     @GET("stations/{stationId}")
     fun get(@Path("stationId") stationId: Int): Call<StationResult>
 }
+
+/**
+ *
+ * Conversion classes using the JSON to Kotlin Android Studio
+ * to make this faster
+ */
 data class StationResult(
     val `data`: Data
 )
