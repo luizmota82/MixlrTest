@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.activity_station.*
-import org.jetbrains.annotations.TestOnly
 
 class StationActivity : AppCompatActivity(R.layout.activity_station) {
 
@@ -34,11 +33,6 @@ class StationActivity : AppCompatActivity(R.layout.activity_station) {
 
     private val glideRequestManager: RequestManager by lazy {
         Glide.with(this)
-    }
-
-    @TestOnly
-    fun setViewModel(viewModel: StationViewModel) {
-        this.viewModel = viewModel
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
