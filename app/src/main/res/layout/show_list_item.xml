@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/list_item_detail_margin_top"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toTopOf="show_start_time"
+        app:layout_constraintBottom_toTopOf="@id/show_start_time"
         app:layout_constraintEnd_toEndOf="@id/show_title"
         app:layout_constraintStart_toStartOf="@id/show_title"
         app:layout_constraintTop_toBottomOf="@id/show_title"
