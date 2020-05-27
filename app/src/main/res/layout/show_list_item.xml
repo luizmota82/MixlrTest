@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/image_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/button_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <ImageView
+        android:id="@+id/show_image"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="@dimen/match_constraint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/image_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/show_title"
+        style="@style/TextSafety"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintBottom_toTopOf="@id/show_host"
+        app:layout_constraintEnd_toEndOf="@id/button_guideline"
+        app:layout_constraintStart_toEndOf="@id/image_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="A Show" />
+
+    <TextView
+        android:id="@+id/show_host"
+        style="@style/TextSafety"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/list_item_detail_margin_top"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintBottom_toTopOf="show_start_time"
+        app:layout_constraintEnd_toEndOf="@id/show_title"
+        app:layout_constraintStart_toStartOf="@id/show_title"
+        app:layout_constraintTop_toBottomOf="@id/show_title"
+        tools:text="The Host" />
+
+    <TextView
+        android:id="@+id/show_start_time"
+        style="@style/TextSafety"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toTopOf="@id/show_end_time"
+        app:layout_constraintEnd_toEndOf="@id/show_title"
+        app:layout_constraintStart_toStartOf="@id/show_title"
+        app:layout_constraintTop_toBottomOf="@id/show_host"
+        tools:text="Start Time: Now" />
+
+    <TextView
+        android:id="@+id/show_end_time"
+        style="@style/TextSafety"
+        android:layout_width="@dimen/match_constraint"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/show_title"
+        app:layout_constraintStart_toStartOf="@id/show_title"
+        app:layout_constraintTop_toBottomOf="@id/show_start_time"
+        tools:text="End Time: 5 minutes" />
+
+    <ImageButton
+        android:id="@+id/show_media_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/media_background"
+        android:src="@drawable/ic_play_arrow_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
