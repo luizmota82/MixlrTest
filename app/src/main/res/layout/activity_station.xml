@@ -11,6 +11,22 @@
         android:layout_height="match_parent"
         tools:context=".StationActivity">
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="shows_list,station_shows,station_name" />
+
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Error" />
+
         <TextView
             android:id="@+id/station_name"
             android:layout_width="@dimen/match_constraint"
@@ -37,10 +53,10 @@
             android:id="@+id/shows_list"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="@dimen/match_constraint"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/station_name"
             app:layout_constraintTop_toBottomOf="@id/station_shows"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/show_list_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

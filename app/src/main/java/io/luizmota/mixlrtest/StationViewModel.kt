@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-internal class StationViewModel(private val stationRepository: StationRepository) : ViewModel() {
+class StationViewModel(private val stationRepository: StationRepository) : ViewModel() {
 
     private val _viewState: MutableLiveData<StationViewState> =
         MutableLiveData<StationViewState>().apply {
@@ -14,16 +14,16 @@ internal class StationViewModel(private val stationRepository: StationRepository
     val viewState: LiveData<StationViewState> = _viewState
 
     fun fetchStationData(stationId: Int) {
-        stationRepository.fetchData(stationId, onCompleted = {
-            _viewState.postValue(StationViewState.Idle(details = it))
-        }, onError = {
-            // handle error
-        })
-    }
-
-    override fun onCleared() {
-        // cancel any ongoing calls and kill repo
-        super.onCleared()
+        _viewState.postValue(StationViewState.Loading)
+        stationRepository.fetchData(
+            stationId = stationId,
+            onCompleted = {
+                _viewState.postValue(StationViewState.Idle(details = it))
+            },
+            onError = {
+                _viewState.postValue(StationViewState.Error(it.localizedMessage))
+            }
+        )
     }
 
     fun refreshData() {
@@ -31,10 +31,9 @@ internal class StationViewModel(private val stationRepository: StationRepository
     }
 }
 
-internal sealed class StationViewState {
-    data class Initial(val stationId: Int = 23): StationViewState()
-    object Empty : StationViewState()
+sealed class StationViewState {
+    data class Initial(val stationId: Int = 23) : StationViewState()
     object Loading : StationViewState()
-    object Error : StationViewState()
+    data class Error(val message: String?) : StationViewState()
     data class Idle(val details: StationDetails) : StationViewState()
 }

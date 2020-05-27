@@ -13,8 +13,16 @@ import kotlinx.android.synthetic.main.activity_station.*
 
 class StationActivity : AppCompatActivity(R.layout.activity_station) {
 
-    private val viewModel: StationViewModel by lazy {
-        ViewModelProvider(this, object : ViewModelProvider.Factory {
+    private var viewModel: StationViewModel? = null
+        get() {
+            if (field == null) {
+                field = createViewModel()
+            }
+            return field
+        }
+
+    private fun createViewModel(): StationViewModel {
+        return ViewModelProvider(this, object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 return StationViewModel(stationRepository = StationRepository()) as T
@@ -30,8 +38,8 @@ class StationActivity : AppCompatActivity(R.layout.activity_station) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.viewState.observe(this) {
-            handleState(it)
+        viewModel?.viewState?.observe(this) {
+            it.process()
         }
 
         with(shows_list) {
@@ -43,16 +51,19 @@ class StationActivity : AppCompatActivity(R.layout.activity_station) {
             (shows_list.adapter as? ShowsAdapter)?.display(schedule = emptyList())
             station_name.text = ""
             station_shows.visibility = View.INVISIBLE
-            viewModel.refreshData()
+            viewModel?.refreshData()
         }
     }
 
-    private fun handleState(state: StationViewState) {
-        when (state) {
-            is StationViewState.Initial -> viewModel.fetchStationData(stationId = state.stationId)
-            is Error -> showError()
+    private fun StationViewState.process() {
+        when (this) {
+            is StationViewState.Initial -> {
+                viewModel?.fetchStationData(stationId = stationId)
+                group_details.visibility = View.GONE
+            }
+            is Error -> showError(message)
             is StationViewState.Loading -> showLoadingIndicator()
-            is StationViewState.Idle -> displayData(details = state.details)
+            is StationViewState.Idle -> displayData(details = details)
         }
     }
 
@@ -61,10 +72,16 @@ class StationActivity : AppCompatActivity(R.layout.activity_station) {
         station_shows.visibility = View.VISIBLE
         (shows_list.adapter as? ShowsAdapter)?.display(schedule = details.schedule)
         refresh_layout.isRefreshing = false
+        error_message.visibility = View.GONE
+        group_details.visibility = View.VISIBLE
     }
 
-    private fun showError() {
-
+    private fun showError(errorMessage: String? = null) {
+        group_details.visibility = View.GONE
+        error_message.text = errorMessage?.let {
+            errorMessage
+        } ?: getString(R.string.details_error_generic)
+        error_message.visibility = View.VISIBLE
     }
 
     private fun showLoadingIndicator() {

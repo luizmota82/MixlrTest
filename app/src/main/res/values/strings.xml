@@ -3,4 +3,5 @@
     <string name="shows">Shows</string>
     <string name="show_begins_at">"Begins: %s"</string>
     <string name="show_ends_at">"Ends: %s"</string>
+    <string name="details_error_generic">There was an error please try again</string>
 </resources>

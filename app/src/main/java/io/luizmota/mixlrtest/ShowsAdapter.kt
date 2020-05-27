@@ -34,15 +34,22 @@ internal class ShowsAdapter(val requestManager: RequestManager) : Adapter<ShowIt
 
 internal class ShowItemViewHolder(itemView: View, val requestManager: RequestManager) :
     RecyclerView.ViewHolder(itemView) {
+
     fun populate(show: Show) {
         if (show.imageUrl.isNotEmpty()) {
             requestManager.load(show.imageUrl)
                 .dontTransform()
                 .into(itemView.show_image)
         }
+
         itemView.show_title.text = show.title
         itemView.show_host.text = show.host
 
+        updateShowTimes(show)
+        handleMediaButton(show)
+    }
+
+    private fun updateShowTimes(show: Show) {
         val dateTimeInstance = SimpleDateFormat.getDateTimeInstance()
         itemView.show_start_time.text = itemView.resources.getString(
             R.string.show_begins_at,
@@ -52,7 +59,9 @@ internal class ShowItemViewHolder(itemView: View, val requestManager: RequestMan
             R.string.show_ends_at,
             dateTimeInstance.format(show.endTime)
         )
+    }
 
+    private fun handleMediaButton(show: Show) {
         when {
             show.isOnAir -> {
 
@@ -61,7 +70,8 @@ internal class ShowItemViewHolder(itemView: View, val requestManager: RequestMan
                         itemView.resources,
                         R.drawable.ic_play_arrow_black_24dp,
                         null
-                    ))
+                    )
+                )
                 itemView.show_media_toggle.visibility = View.VISIBLE
             }
             show.isLive -> {
@@ -70,7 +80,8 @@ internal class ShowItemViewHolder(itemView: View, val requestManager: RequestMan
                         itemView.resources,
                         R.drawable.ic_stop_black_24dp,
                         null
-                    ))
+                    )
+                )
                 itemView.show_media_toggle.visibility = View.VISIBLE
             }
             else -> itemView.show_media_toggle.visibility = View.INVISIBLE
