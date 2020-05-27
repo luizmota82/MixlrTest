@@ -5,15 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import com.bumptech.glide.RequestManager
 import kotlinx.android.synthetic.main.show_list_item.view.*
 
-internal class ShowsAdapter : Adapter<ShowItemViewHolder>() {
+internal class ShowsAdapter(val requestManager: RequestManager) : Adapter<ShowItemViewHolder>() {
     private var shows: List<Show> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowItemViewHolder =
         ShowItemViewHolder(
             itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.show_list_item, parent, false)
+                .inflate(R.layout.show_list_item, parent, false),
+            requestManager = requestManager
         )
 
     override fun getItemCount(): Int = shows.size
@@ -28,12 +30,18 @@ internal class ShowsAdapter : Adapter<ShowItemViewHolder>() {
     }
 }
 
-internal class ShowItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+internal class ShowItemViewHolder(itemView: View, val requestManager: RequestManager) :
+    RecyclerView.ViewHolder(itemView) {
     fun populate(show: Show) {
+        if (show.imageUrl.isNotEmpty()) {
+            requestManager.load(show.imageUrl)
+                .dontTransform()
+                .into(itemView.show_image)
+        }
         itemView.show_title.text = show.title
         itemView.show_host.text = show.host
-        itemView.show_start_time.text = "Begins: ${show.startTime}"
-        itemView.show_end_time.text = "Ends: ${show.endTime}"
+        itemView.show_start_time.text = itemView.resources.getString(R.string.show_begins_at, show.startTime)
+        itemView.show_end_time.text = itemView.resources.getString(R.string.show_ends_at, show.endTime)
 
         when {
             show.isOnAir -> {

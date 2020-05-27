@@ -23,6 +23,7 @@
         android:id="@+id/show_image"
         android:layout_width="@dimen/match_constraint"
         android:layout_height="@dimen/match_constraint"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/image_guideline"
